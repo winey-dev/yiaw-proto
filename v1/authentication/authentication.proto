@@ -47,6 +47,6 @@ message ChangePasswordRequest {
     string new_password     = 3;
 }
 message ChangePasswordResponse {
-    string new_token = 1;
+    string new_bearer = 1;
     string response_msg = 2;
 }

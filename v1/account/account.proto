@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package v1.account
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+import "google/api/annotations.proto";
+
+service AccountService {
+    rpc ListAccounts(ListAccountsRequest) returns(ListBooksResponse) {
+        option(google.api.http) = {
+            get: "/v1/account"
+        };
+    };
+    rpc GetAccount(GetAccountRequest) returns(Account) {
+        option(google.api.http) = {
+            get: "/v1/account/{user_id}"
+        };
+    };
+    rpc CreateAccount(CreateAccountRequest) returns (Account) {
+        option(google.api.http) = {
+            post: "/v1/account"
+            body: "*"
+        };
+    };
+    rpc UpdateAccount(UpdateAccountRequest) returns (Account) {
+        option(google.api.http) = {
+            put:  "/v1/account/{user_id}"
+            body: "*"
+        };
+    };
+    rpc DeleteAccount(DeleteAccountRequest) returns (google.protobuf.Empty) {
+        option(google.api.http) = {
+            delete:  "/v1/account{user_id}"
+        };
+    };
+}
+
+message Account {
+    string user_id  = 1;
+    string password = 2;
+    string email    = 3;
+    google.protobuf.Timestamp create_time = 3;
+    google.protobuf.Timestamp password_update_time = 4;
+}
+
+message ListAccountsRequest {
+    optional google.protobuf.Timestamp create_start_time = 1;
+    optional google.protobuf.Timestamp create_end_time   = 2;
+}
+
+message ListAccountsResponse {
+    repeated Account accounts = 1;
+}
+
+message GetAccountRequest {
+    string user_id = 1;
+}
+
+message CreateAccountRequest {
+    string user_id  = 1;
+    string password = 2;
+    string email    = 3;
+}
+
+message UpdateAccountRequest {
+    string user_id = 1;
+    string email   = 2;
+}
+
+message DeleteAccountRequest {
+    string user_id = 1;
+}

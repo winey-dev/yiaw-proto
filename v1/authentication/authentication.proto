@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package v1.authentication
+
+import "v1/account/account.proto";
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+
+service AuthenticationService {
+    rpc Login(LoginRequest) returns (LoginResponse) {
+        option(google.api.http) = {
+            post: "/v1/login"
+            body: "*"
+        };
+    };
+    rpc Logout(LogoutRequest) returns (google.protobuf.Empty) {
+        option(google.api.http) = {
+            get: "/v1/logout"
+        };
+    };
+
+    rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse) {
+        option(google.api.http) = {
+            put: "/v1/users/{id}/password"
+            body: "*"
+        };
+    };
+}
+
+
+message LoginRequest {
+    string user_id  = 1;
+    string password = 2;
+}
+
+message LoginResponse {
+    string bearer = 1;
+}
+
+message LogoutRequest {
+    string bearer = 1;
+}
+
+message ChangePasswordRequest {
+    string user_id          = 1;
+    string current_password = 2;
+    string new_password     = 3;
+}
+message ChangePasswordResponse {
+    string response_msg = 1;
+}

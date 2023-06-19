@@ -11,5 +11,11 @@ go:
 		--grpc-gateway_opt logtostderr=true \
 		--grpc-gateway_opt paths=source_relative \
 		account.proto;
+node:
+	protoc -I =. \
+		-I =/usr/local/include/google \
+		-I =../../ \
+		--js_out=import_style=commonjs,binary:. \
+		account.proto;
 clean:
-	rm -rf *.go
+	rm -rf *.go *.js
